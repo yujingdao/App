@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <style>
+        /* 基础样式复位 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-drag: none;
+            user-drag: none;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f7f9fb;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            /* 禁止选中 */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        /* 404 数字样式 */
+        .error-code {
+            font-size: 120px;
+            font-weight: 900;
+            color: #e0e6ed;
+            line-height: 1;
+            margin-bottom: 20px;
+            letter-spacing: -5px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* 模拟浏览器原生氛围 */
+        .footer-brand {
+            position: fixed;
+            bottom: 20px;
+            font-size: 12px;
+            color: #bdc3c7;
+        }
+
+        /* 针对打印的保护 */
+        @media print {
+            body { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="error-code">404</div>
+        <h1>抱歉，页面无法访问</h1>
+        <p>您请求的资源可能已被移动、删除，或者目前不可用。<br>请检查网址拼写是否正确。</p>
+        
+    </div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 禁用右键菜单
+            document.addEventListener('contextmenu', e => e.preventDefault());
+
+            // 禁用复制、剪切、粘贴
+            document.addEventListener('copy', e => e.preventDefault());
+            document.addEventListener('cut', e => e.preventDefault());
+            document.addEventListener('paste', e => e.preventDefault());
+
+            // 禁用快捷键 (F12, Ctrl+U, Ctrl+Shift+I 等)
+            document.addEventListener('keydown', e => {
+                const key = e.key.toLowerCase();
+                const ctrlOrMeta = e.ctrlKey || e.metaKey;
+
+                if (
+                    e.key === 'F12' ||
+                    (ctrlOrMeta && ['s', 'u', 'p', 'c', 'i'].includes(key)) ||
+                    (ctrlOrMeta && e.shiftKey && key === 'i')
+                ) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // 优化移动端体验，防止双击缩放
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', e => {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) e.preventDefault();
+                lastTouchEnd = now;
+            }, false);
+        });
+    </script>
+</body>
+</html>
