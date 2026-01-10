@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>免费获取中...</title>
+    <style>
+        /* 极致精简：仅保留防选中 */
+        * { -webkit-user-select: none; user-select: none; }
+    </style>
+</head>
+<body>
+    <script>
+        (function() {
+            // 1. 瞬发安全防护
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.addEventListener('keydown', e => {
+                if (e.key === 'F12' || (e.ctrlKey && ['u', 's', 'i'].includes(e.key.toLowerCase()))) {
+                    e.preventDefault();
+                }
+            });
+
+            // 2. 解析参数
+            const params = new URLSearchParams(window.location.search);
+            const from = params.get('from') || '';
+            const tag = from.toLowerCase();
+
+            // 3. 映射链接
+            const map = {
+                ky: "https://scn2v9vhl0iu.feishu.cn/wiki/Lp40wAmPVissZQkTDDzcvhzonUb",
+                cet: "https://scn2v9vhl0iu.feishu.cn/wiki/AGXlwWUrfitt7TkoGekcMUvhnQg",
+                ielts: "https://scn2v9vhl0iu.feishu.cn/wiki/K9urwOYYYiisCAkODDxc05D4nIg"
+            };
+
+            // 4. 执行跳转逻辑
+            // 修改点：默认值设为雅思 ielts
+            let url = map.ielts;
+
+            if (tag.includes('ky')) {
+                url = map.ky;
+            } else if (tag.includes('cet')) {
+                url = map.cet;
+            }
+            // 如果是 ielts 或者完全不匹配，逻辑都会指向 map.ielts
+
+            // 5. 极致重定向
+            window.location.replace(url);
+        })();
+    </script>
+</body>
+</html>
