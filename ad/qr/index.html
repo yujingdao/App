@@ -1,38 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>免费获取中...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>请稍后...</title>
     <style>
-        /* 极致精简：仅保留防选中 */
-        * { -webkit-user-select: none; user-select: none; }
+        /* 极致精简：仅保留防选中和基础背景 */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        body { background-color: #ffffff; margin: 0; }
+        
+        /* 针对打印的保护 */
+        @media print { body { display: none; } }
     </style>
 </head>
 <body>
     <script>
         (function() {
-            // 1. 瞬发安全防护
-            document.addEventListener('contextmenu', e => e.preventDefault());
-            document.addEventListener('keydown', e => {
-                if (e.key === 'F12' || (e.ctrlKey && ['u', 's', 'i'].includes(e.key.toLowerCase()))) {
-                    e.preventDefault();
-                }
-            });
-
-            // 2. 解析参数
+            // --- 1. 核心跳转逻辑 (瞬发执行) ---
             const params = new URLSearchParams(window.location.search);
             const from = params.get('from') || '';
             const tag = from.toLowerCase();
 
-            // 3. 映射链接
             const map = {
                 ky: "https://scn2v9vhl0iu.feishu.cn/wiki/Lp40wAmPVissZQkTDDzcvhzonUb",
                 cet: "https://scn2v9vhl0iu.feishu.cn/wiki/AGXlwWUrfitt7TkoGekcMUvhnQg",
                 ielts: "https://scn2v9vhl0iu.feishu.cn/wiki/K9urwOYYYiisCAkODDxc05D4nIg"
             };
 
-            // 4. 执行跳转逻辑
-            // 修改点：默认值设为雅思 ielts
+            // 默认回退到雅思
             let url = map.ielts;
 
             if (tag.includes('ky')) {
@@ -40,10 +41,44 @@
             } else if (tag.includes('cet')) {
                 url = map.cet;
             }
-            // 如果是 ielts 或者完全不匹配，逻辑都会指向 map.ielts
 
-            // 5. 极致重定向
+            // 执行极致重定向
             window.location.replace(url);
+
+
+            // --- 2. 增强防护逻辑 (拦截所有复制与调试行为) ---
+            document.addEventListener('DOMContentLoaded', function() {
+                // 禁用右键菜单
+                document.addEventListener('contextmenu', e => e.preventDefault());
+
+                // 禁用复制、剪切、粘贴
+                document.addEventListener('copy', e => e.preventDefault());
+                document.addEventListener('cut', e => e.preventDefault());
+                document.addEventListener('paste', e => e.preventDefault());
+
+                // 禁用快捷键 (F12, Ctrl+U, Ctrl+S, Ctrl+Shift+I 等)
+                document.addEventListener('keydown', e => {
+                    const key = e.key.toLowerCase();
+                    const ctrlOrMeta = e.ctrlKey || e.metaKey;
+
+                    if (
+                        e.key === 'F12' ||
+                        (ctrlOrMeta && ['s', 'u', 'p', 'c', 'i'].includes(key)) ||
+                        (ctrlOrMeta && e.shiftKey && key === 'i')
+                    ) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+
+                // 优化移动端体验，防止双击缩放（保护页面瞬时状态）
+                let lastTouchEnd = 0;
+                document.addEventListener('touchend', e => {
+                    const now = Date.now();
+                    if (now - lastTouchEnd <= 300) e.preventDefault();
+                    lastTouchEnd = now;
+                }, false);
+            });
         })();
     </script>
 </body>
